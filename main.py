@@ -20,34 +20,40 @@ from flowlauncher import FlowLauncher
 class times(FlowLauncher):
 
     def query(self, query):
-        return [
-            {
-                #"Title": f"{if not query time.time()}{('Your query is: ' + query , query)[query == '']}",
-                "Title": f"{'Your query is: ' + query if query else time.time()}",
-                "SubTitle": "This is where your subtitle goes, press enter to open Flow's url",
-                "IcoPath": "Images/app.png",
-                "JsonRPCAction": {
-                    "method": "copy_to_clipboard",
-                    "parameters": [f"{'Your query is: ' + query if query else time.time()}"]
-                }
-            }
-        ]
+        return self.q(query)
 
-    def context_menu(self, data):
-        return [
-            {
-                "Title": "Hello World Python's Context menu",
-                "SubTitle": "Press enter to open Flow the plugin's repo in GitHub",
-                "IcoPath": "Images/app.png",
-                "JsonRPCAction": {
-                    "method": "open_url",
-                    "parameters": ["https://github.com/Flow-Launcher/Flow.Launcher.Plugin.HelloWorldPython"]
-                }
-            }
-        ]
+    # def context_menu(self, data):
+    #    return [
+    #        {
+    #        }
+    #    ]
 
+    def q(self, query):
+        templateUNUSED = {
+            "Title": "",
+            "SubTitle": "",
+            "IcoPath": "Images/app.png",
+            "JsonRPCAction": {
+                "method": "",
+                "parameters": []
+            }
+        }
+        # empty: show time
+        if query == "":
+            t= time.localtime()
+            return [
+                {
+                    "Title": f"current time: {t.tm_hour}:{t.tm_min}:{t.tm_sec}",
+                    "SubTitle": "Press Enter to copy to clipboard",
+                    "IcoPath": "Images/app.png",
+                    "JsonRPCAction": {
+                        "method": "copy_to_clipboard",
+                        "parameters": [f"{t.tm_hour}:{t.tm_min}:{t.tm_sec}"]
+                    }
+                }
+            ]
     def copy_to_clipboard(self, text):
         clipboard.copy(text)
 
 if __name__ == "__main__":
-    times()
+    times().query("test")
