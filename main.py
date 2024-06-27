@@ -13,7 +13,7 @@ sys.path.append(os.path.join(parent_folder_path, 'lib'))
 sys.path.append(os.path.join(parent_folder_path, 'plugin'))
 
 
-import clipboard
+import pyperclip as clipboard
 from flowlauncher import FlowLauncher
 
 
