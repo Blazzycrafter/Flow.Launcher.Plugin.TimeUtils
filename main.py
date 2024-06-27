@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import sys,os
-
-import sys
+import sys,os,time
 from pathlib import Path
 
 plugindir = Path.absolute(Path(__file__).parent)
@@ -14,20 +12,23 @@ sys.path.append(parent_folder_path)
 sys.path.append(os.path.join(parent_folder_path, 'lib'))
 sys.path.append(os.path.join(parent_folder_path, 'plugin'))
 
+
+import clipboard
 from flowlauncher import FlowLauncher
 
 
-class HelloWorld(FlowLauncher):
+class times(FlowLauncher):
 
     def query(self, query):
         return [
             {
-                "Title": "Hello World, this is where title goes. {}".format(('Your query is: ' + query , query)[query == '']),
+                #"Title": f"{if not query time.time()}{('Your query is: ' + query , query)[query == '']}",
+                "Title": f"{'Your query is: ' + query if query else time.time()}",
                 "SubTitle": "This is where your subtitle goes, press enter to open Flow's url",
                 "IcoPath": "Images/app.png",
                 "JsonRPCAction": {
-                    "method": "open_url",
-                    "parameters": ["https://github.com/Flow-Launcher/Flow.Launcher"]
+                    "method": "copy_to_clipboard",
+                    "parameters": [f"{'Your query is: ' + query if query else time.time()}"]
                 }
             }
         ]
@@ -45,8 +46,8 @@ class HelloWorld(FlowLauncher):
             }
         ]
 
-    def open_url(self, url):
-        webbrowser.open(url)
+    def copy_to_clipboard(self, text):
+        clipboard.copy(text)
 
 if __name__ == "__main__":
-    HelloWorld()
+    times()
